@@ -10,4 +10,4 @@ const bicycleSchema = new Schema<Bicycle>({
     quantity:{type:Number,required:true},
     inStock:{type:Boolean,required:true},
 })
-const Bicycle = model<Bicycle>('Bicycle',bicycleSchema )
+export const BicycleModel = model<Bicycle>('Bicycle',bicycleSchema )
