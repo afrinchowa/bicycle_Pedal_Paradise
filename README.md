@@ -1,4 +1,4 @@
 User
-product 
+product
 order
 crud for bicycle and order
