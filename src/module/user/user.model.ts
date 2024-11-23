@@ -3,7 +3,7 @@ import { model, Schema } from 'mongoose';
 const userSchema = new Schema({
   name: {
     type: String,
-    required: [true, "Student name is required"],,
+    required: [true, "Bicycle name is required"],
   },
   age: {
     type: Number,
@@ -13,10 +13,10 @@ const userSchema = new Schema({
     type: String,
     required: [true, "Email is required"],
     unique: true,
-    validate: {
+    // validate: {
       // validator: (value: string) => validator.isAlpha(value),
-      message: "{VALUE} is not valid email type",
-    },
+    //   message: "{VALUE} is not valid email type",
+    // },
   },
   photo: String,
   role: {

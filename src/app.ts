@@ -1,6 +1,6 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
-import userRouter from './module/user/user.router';
+import { BicycleRoutes } from './module/bicycle/bicycle.route';
 
 const app: Application = express();
 
@@ -8,9 +8,7 @@ const app: Application = express();
 app.use(express.json());
 app.use(cors());
 
-app.use('/api/user',userRouter)
-
-
+app.use('/api/v1/bicycles', BicycleRoutes);
 
 const getAController = (req: Request, res: Response) => {
   const a = 10;

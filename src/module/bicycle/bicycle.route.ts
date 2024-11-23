@@ -12,4 +12,4 @@ router.post("/create-bicycle", BicycleControllers.createBicycle);
 
 
 // router.delete("/:BicycleId", BicycleControllers.deleteBicycle);
-// export const BicycleRoutes = router;
+export const BicycleRoutes = router;
