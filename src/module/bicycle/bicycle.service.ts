@@ -29,18 +29,23 @@ const getSingleBicycleFromDB = async (id: string) => {
     throw new Error('Error retrieving bicycle: ' + err.message);
   }
 };
+
+const updateBicycleInDB = async (id: string, updateData: Partial<Bicycle>) => {
+  const result = await BicycleModel.findByIdAndUpdate(id, updateData, {
+    new: true,
+  });
+  return result;
+};
+
 const deleteBicycleFromDB = async (id: string) => {
-  try {
-    const result = await BicycleModel.updateOne({ id }, { isDeleted: true });
-    return result;
-  } catch (err) {
-    throw new Error('Error deleting bicycle: ' + err.message);
-  }
+  const result = await BicycleModel.findByIdAndDelete(id);
+  return result;
 };
 
 export const BicycleServices = {
   createBicycleIntoDB,
   getAllBicyclesFromDB,
   getSingleBicycleFromDB,
-    deleteBicycleFromDB,
+  updateBicycleInDB,
+  deleteBicycleFromDB,
 };
