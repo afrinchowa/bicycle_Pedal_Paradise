@@ -1,14 +1,13 @@
 import express from 'express';
-import { BicycleControllers } from './bicycle.controller';
+import { BicycleController } from './bicycle.controller';
 
 const router = express.Router();
+const bicycleController = new BicycleController();
 
-// will call controller func
-router.post('/create-bicycle', BicycleControllers.createBicycle);
+router.post('/api/products', bicycleController.createBicycle);
+router.get('/api/products', bicycleController.getAllBicycles);
+router.get('/api/products/:productId', bicycleController.getBicycleById);
+router.put('/api/products/:productId', bicycleController.updateBicycle);
+router.delete('/api/products/:productId', bicycleController.deleteBicycle);
 
-router.get('/', BicycleControllers.getAllBicycles);
-
-router.get('/:bicycleId', BicycleControllers.getSingleBicycle);
-
-// router.delete("/:BicycleId", BicycleControllers.deleteBicycle);
-export const BicycleRoutes = router;
+export default router;
