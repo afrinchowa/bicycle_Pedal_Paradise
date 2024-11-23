@@ -4,40 +4,43 @@ import { Bicycle } from './bicycle.interface';
 import { BicycleModel } from './bicycle.model';
 
 const createBicycleIntoDB = async (bicycle: Bicycle) => {
-  //built in static method
-  const result = await BicycleModel.create(bicycle);
-  return result;
-
-  // const bicycle = new bicycle(bicycleData);// create an instance
-  // if(await bicycle.iscycleExists(bicycleData.id)){
-  // throw new Error('cycle already exists!');
-  // }
-
-  //const result=await bicycle.save();//built in  instance method
+  try {
+    const result = await BicycleModel.create(bicycle);
+    return result;
+  } catch (err) {
+    throw new Error('Error creating bicycle: ' + err.message);
+  }
 };
 
-const getAllbicyclesFromDB = async () => {
-  const result = await BicycleModel.find();
-  return result;
+const getAllBicyclesFromDB = async () => {
+  try {
+    const result = await BicycleModel.find();
+    return result;
+  } catch (err) {
+    throw new Error('Error retrieving bicycles: ' + err.message);
+  }
 };
 
 const getSingleBicycleFromDB = async (id: string) => {
-  const result = await BicycleModel.findOne({ id });
-  // const result = await BicycleModel.aggregate([
-  //   {
-  //     $match: {id:id}
-  //   }
-  // ])
-  return result;
+  try {
+    const result = await BicycleModel.findOne({ id });
+    return result;
+  } catch (err) {
+    throw new Error('Error retrieving bicycle: ' + err.message);
+  }
 };
 const deleteBicycleFromDB = async (id: string) => {
-  const result = await BicycleModel.updateOne({ id }, { isDeleted: true });
-  return result;
+  try {
+    const result = await BicycleModel.updateOne({ id }, { isDeleted: true });
+    return result;
+  } catch (err) {
+    throw new Error('Error deleting bicycle: ' + err.message);
+  }
 };
 
 export const BicycleServices = {
   createBicycleIntoDB,
-  getAllbicyclesFromDB,
+  getAllBicyclesFromDB,
   getSingleBicycleFromDB,
-  //   deletebicycleFromDB,
+    deleteBicycleFromDB,
 };

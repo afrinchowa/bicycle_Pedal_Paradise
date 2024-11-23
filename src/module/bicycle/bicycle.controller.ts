@@ -13,6 +13,11 @@ const createBicycle = async (req: Request, res: Response) => {
     });
   } catch (err) {
     console.log(err);
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong',
+      error: err.message,
+    });
   }
 };
 
@@ -21,31 +26,43 @@ const getAllBicycles = async (req: Request, res: Response) => {
     const result = await BicycleServices.getAllbicyclesFromDB();
     res.status(200).json({
       success: true,
-      message: 'Bicycles are retrieved successfully',
+      message: 'Bicycles retrieved successfully',
       data: result,
     });
-  } catch (err) {
+  }catch (err) {
     console.log(err);
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong',
+      error: err.message,
+    });
   }
 };
 
 const getSingleBicycle = async (req: Request, res: Response) => {
-  try {
-    const { bicycleId } = req.params;
-    const result = await BicycleServices.getSingleBicycleFromDB(bicycleId);
-    res.status(200).json({
-      success: true,
-      message: 'Bicycles is retrieved successfully',
-      data: result,
-    });
-  } catch (err: any) {
-    res.status(500).json({
-      success: true,
-      message: 'Something went wrong',
-      error: err,
-    });
-  }
-};
+    try {
+      const { bicycleId } = req.params;
+      const result = await BicycleServices.getSingleBicycleFromDB(bicycleId);
+      if (!result) {
+        return res.status(404).json({
+          success: false,
+          message: 'Bicycle not found',
+        });
+      }
+      res.status(200).json({
+        success: true,
+        message: 'Bicycle retrieved successfully',
+        data: result,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        message: 'Something went wrong',
+        error: err.message,
+      });
+    }
+  };
 
 export const BicycleControllers = {
   createBicycle,
