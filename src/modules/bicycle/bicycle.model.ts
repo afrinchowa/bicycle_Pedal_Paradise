@@ -9,7 +9,10 @@ const bicycleSchema: Schema = new Schema<Bicycle>({
   type: { type: String, enum: ["Mountain", "Road", "Hybrid", "BMX", "Electric"], required: true },
   description: { type: String },
   quantity: { type: Number, required: true, min: 0 },
-  inStock: { type: Boolean, default: true }
-}, { timestamps: true });
+  inStock: { type: Boolean, default: true },
+  isDeleted:{type:Boolean,default:false}
+}, { timestamps: true },
+
+);
 
 export const BicycleModel= mongoose.model<Bicycle>("Bicycle", bicycleSchema);

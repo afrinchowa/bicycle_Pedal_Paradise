@@ -9,7 +9,9 @@ router.post('/create-Bicycle', BicycleControllers.createBicycle);
 
 router.get('/', BicycleControllers.getAllBicycles);
 
-router.get('/:bicycleId', BicycleControllers.getSingleBicycle);
+router.get('/:productId', BicycleControllers.getSingleBicycle);
 
-router.delete('/:bicycleId', BicycleControllers.deleteBicycle);
+router.put('/:productId', BicycleControllers.updateBicycle);
+
+router.delete('/:productId', BicycleControllers.deleteBicycle);
 export const BicycleRoutes = router;

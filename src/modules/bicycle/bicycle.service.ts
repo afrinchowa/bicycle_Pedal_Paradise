@@ -15,23 +15,24 @@ const getAllBicyclesFromDB = async () => {
   const result = await BicycleModel.find();
   return result;
 };
-const getSingleBicycleFromDB = async (_id: string) => {
-  const result = await BicycleModel.findOne({ id:_id });
-  // const result = await BicycleModel.aggregate([
-  //   {
-  //     $match: { id: _id },
-  //   },
-  // ]);
+const getSingleBicycleFromDB = async (id: string) => {
+  const result = await BicycleModel.findOne({ id });
   return result;
 };
-const deleteBicycleFromDB = async (id: string) => {
-  const result = await BicycleModel.updateOne({ id }, { isDeleted: true });
-  return result;
-};
+const updateBicycle = async (id: string, payload: Partial<Bicycle>) => {
+  const result = BicycleModel.findByIdAndUpdate(id, payload)
+  return result
+}
+
+const deleteBicycle = async (id: string) => {
+  const result = BicycleModel.findByIdAndDelete(id)
+  return result
+}
 
 export const BicycleServices = {
   createBicycleIntoDB,
   getAllBicyclesFromDB,
   getSingleBicycleFromDB,
-  deleteBicycleFromDB,
+  deleteBicycle,
+  updateBicycle,
 };
