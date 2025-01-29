@@ -8,13 +8,18 @@ const app: Application = express();
 
 // parser
 app.use(express.json());
-app.use(cors());
+// app.use(cookieParser());
+
+app.use(cors({origin:'http://localhost:5173',credentials:true}));
 // application
 app.use("/api/products", BicycleRoutes);
 app.use('/api/orders', OrderRoutes); 
 const getAController = (req: Request, res: Response) => {
   const a = 10;
   res.send(a);
+  res.status(200).json({
+    message:'Welcome to The Bicycle store'
+  })
 };
 
 app.get("/", getAController);
