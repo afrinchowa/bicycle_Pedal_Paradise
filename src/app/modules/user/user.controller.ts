@@ -1,49 +1,107 @@
-import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
-import sendResponse from '../../utils/sendResponse';
+
 import { UserServices } from './user.service';
 
-const createStudent = catchAsync(async (req, res) => {
-  const { password, student: studentData } = req.body;
 
-  const result = await UserServices.createStudentIntoDB(password, studentData);
+const createUser = catchAsync(async (req, res) => {
+  try {
+    const payload = req.body;
+    const result = await UserServices.createUser(payload);
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Student is created succesfully',
-    data: result,
-  });
+    res.json({
+      status: true,
+      message: 'User created successfully',
+      data: result,
+    });
+  } catch (error) {
+    res.json({
+      status: false,
+      message: 'Something went wrong',
+      error,
+    });
+  }
 });
+const getUser = catchAsync(async (req, res) => {
+  try {
+const result = await UserServices.getUser()
 
-const createFaculty = catchAsync(async (req, res) => {
-  const { password, faculty: facultyData } = req.body;
-
-  const result = await UserServices.createFacultyIntoDB(password, facultyData);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Faculty is created succesfully',
-    data: result,
-  });
+res.send({
+  status:true,
+  message: 'Users getting successfully',
+  result,
+})
+   
+  } catch (error) {
+    res.json({
+      status: false,
+      message: 'Something went wrong',
+      error,
+    });
+  }
 });
+const getSingleUser = catchAsync(async (req, res) => {
+  try {
+    const userId =req.params.userId
 
-const createAdmin = catchAsync(async (req, res) => {
-  const { password, admin: adminData } = req.body;
+const result = await UserServices.getUser(userId)
 
-  const result = await UserServices.createAdminIntoDB(password, adminData);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Admin is created succesfully',
-    data: result,
-  });
+res.send({
+  status:true,
+  message: 'User getting successfully',
+  result,
+})
+   
+  } catch (error) {
+    res.json({
+      status: false,
+      message: 'Something went wrong',
+      error,
+    });
+  }
 });
+const updateUser = catchAsync(async (req, res) => {
+  try {
+    const userId =req.params.userId
+    const body =req.body
+const result = await UserServices.updateUser(userId,body)
 
+res.send({
+  status:true,
+  message: 'User updated successfully',
+  result,
+})
+   
+  } catch (error) {
+    res.json({
+      status: false,
+      message: 'Something went wrong',
+      error,
+    });
+  }
+});
+const deleteUser = catchAsync(async (req, res) => {
+  try {
+    const userId =req.params.userId
+ await UserServices.deleteUser(userId)
+
+res.send({
+  status:true,
+  message: 'User deleted successfully',
+  result:{},
+})
+   
+  } catch (error) {
+    res.json({
+      status: false,
+      message: 'Something went wrong',
+      error,
+    });
+  }
+});
 export const UserControllers = {
-  createStudent,
-  createFaculty,
-  createAdmin,
+  createUser,
+  getUser,
+  getSingleUser,
+  updateUser,
+  deleteUser,
 };
