@@ -11,8 +11,19 @@ const createBicycleIntoDB = async (bicycleData: Bicycle) => {
   return result;
 };
 
-const getAllBicyclesFromDB = async () => {
-  const result = await BicycleModel.find();
+const getAllBicyclesFromDB = async (searchTerm?: string) => {
+  console.log("Search Term:", searchTerm);
+  let filter = {};
+  if (searchTerm) {
+    filter = {
+      $or: [
+        { name: { $regex: searchTerm, $options: 'i' } },
+        { brand: { $regex: searchTerm, $options: 'i' } },
+        { category: { $regex: searchTerm, $options: 'i' } },
+      ],
+    };
+  }
+  const result = await BicycleModel.find(filter).sort({ createdAt: -1 });
   return result;
 };
 const getSingleBicycleFromDB = async (id: string) => {
