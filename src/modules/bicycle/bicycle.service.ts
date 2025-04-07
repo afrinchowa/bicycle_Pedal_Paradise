@@ -16,7 +16,7 @@ const getAllBicyclesFromDB = async () => {
   return result;
 };
 const getSingleBicycleFromDB = async (id: string) => {
-  const result = await BicycleModel.findOne({ id });
+  const result = await BicycleModel.findById(id);
   return result;
 };
 const updateBicycle = async (id: string, payload: Partial<Bicycle>) => {

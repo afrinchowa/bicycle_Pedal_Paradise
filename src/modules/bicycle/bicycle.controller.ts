@@ -32,7 +32,7 @@ const getAllBicycles = async (req: Request, res: Response) => {
 };
 const getSingleBicycle = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = req.params.productId;
     const result = await BicycleServices.getSingleBicycleFromDB(id);
     res.status(200).json({
       success: true,

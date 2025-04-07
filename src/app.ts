@@ -15,10 +15,11 @@ app.use(cors({origin:'http://localhost:5173',credentials:true}));
 app.use("/api/products", BicycleRoutes);
 app.use('/api/orders', OrderRoutes); 
 const getAController = (req: Request, res: Response) => {
-  const a = 10;
-  res.send(a);
+  // const a = 10;
+  // res.send(a);
   res.status(200).json({
-    message:'Welcome to The Bicycle store'
+    message:'Welcome to The Bicycle store',
+    a:10
   })
 };
 
