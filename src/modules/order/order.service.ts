@@ -1,32 +1,41 @@
-import { BicycleModel } from '../bicycle/bicycle.model';
-import { Order } from './order.interface'
-import { OrderModel } from './order.model'
+import Product from '../product/product.model';
+import { TOrder } from './order.interface';
+import Order from './order.model';
 
+const createOrder = async (payload: TOrder): Promise<TOrder> => {
+  const result = await Order.create(payload);
 
+  const product = await Product.findById(payload.product);
 
+  if (product) {
+    const newQuantity = product.quantity - payload.quantity;
+    const updateData = {
+      quantity: newQuantity,
+      inStock: newQuantity > 0,
+    };
 
-const createOrderInDB = async (orderData: Order) => {
-  const product = await BicycleModel.findById(orderData.product);
-  if (!product) throw new Error("Product not found");
+    await Product.findByIdAndUpdate(payload.product, updateData);
 
-  if (product.quantity < orderData.quantity) throw new Error("Insufficient stock");
+    console.log(newQuantity);
+  }
 
-  product.quantity -= orderData.quantity;
-  product.inStock = product.quantity > 0;
-  await product.save();
-
-  const totalPrice = orderData.quantity * product.price;
-  const order = await OrderModel.create({ ...orderData, totalPrice });
-
-  return order;
+  return result;
 };
 
-export const OrderServices = {
-  createOrderInDB,
-};
+const orderRevenue = async () => {
+  const result = await Order.aggregate([
+    {
+      $group: {
+        _id: null,
+        totalRevenue: { $sum: '$totalPrice' },
+      },
+    },
+  ]);
 
+  return result[0]?.totalRevenue || 0;
+};
 
 export const orderService = {
-  createOrderInDB
-
-}
+  createOrder,
+  orderRevenue,
+};
