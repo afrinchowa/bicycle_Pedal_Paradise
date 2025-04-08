@@ -1,23 +1,18 @@
 import { Request, Response } from 'express';
 import { BicycleServices } from './bicycle.service';
-// import { BicycleValidationSchema } from './bicycle.validation';
+import catchAsync from '../../app/utils/catchAsync';
+import sendResponse from '../../utils/sendResponse';
+import httpStatus from 'http-status';
 
-const createBicycle = async (req: Request, res: Response) => {
-  try {
-    const { bicycle: bicycleData } = req.body;
-    // data validation using zod
-    // const zodparseData = BicycleValidationSchema.parse(bicycleData);
-
-    const result = await BicycleServices.createBicycleIntoDB(bicycleData);
-    res.status(200).json({
-      success: true,
-      message: 'Bicycle created successfully',
-      data: result,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
+const createBicycle = catchAsync(async (req: Request, res: Response) => {
+  const result = await BicycleServices.createBicycleIntoDB(req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Bicycle is created successfully!',
+    data: result,
+  });
+});
 const getAllBicycles = async (req: Request, res: Response) => {
   try {
     // const { searchTerm } = req.query;

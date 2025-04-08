@@ -53,15 +53,9 @@ const deleteUser = catchAsync(async (req, res) => {
 });
 
 export const UserControllers = {
-<<<<<<< HEAD
-  createStudent,
-  createFaculty,
-  createAdmin,
-=======
   createUser,
   getUser,
   getSingleUser,
   updateUser,
   deleteUser,
->>>>>>> main
 };

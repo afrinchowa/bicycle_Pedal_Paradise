@@ -1,8 +1,8 @@
-import { Bicycle, BicycleFilter } from './bicycle.interface';
+import { BicycleFilter, IBicycle } from './bicycle.interface';
 import { BicycleModel } from './bicycle.model';
 
-const createBicycleIntoDB = async (bicycleData: Bicycle) => {
-  const result = await BicycleModel.create(bicycleData); //
+const createBicycleIntoDB = async (payload: IBicycle) => {
+  const result = await BicycleModel.create(payload); //
 
   return result;
 };
@@ -61,7 +61,7 @@ const getSingleBicycleFromDB = async (id: string) => {
   const result = await BicycleModel.findById(id);
   return result;
 };
-const updateBicycle = async (id: string, payload: Partial<Bicycle>) => {
+const updateBicycle = async (id: string, payload: Partial<IBicycle>) => {
   const result = BicycleModel.findByIdAndUpdate(id, payload);
   return result;
 };

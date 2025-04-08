@@ -8,17 +8,13 @@
 //   inStock: boolean;
 //   isDeleted: boolean;
 // }
-export interface Bicycle {
+export interface IBicycle {
   name: string;
   brand: string;
   model: string;
   img: string;
   price: number;
-
-  // Functional type — defines engineering/design purpose
   type: 'Mountain' | 'Road' | 'Hybrid' | 'BMX' | 'Electric';
-
-  // Market category — defines audience, style, or placement
   category:
     | 'Men'
     | 'Women'
@@ -30,7 +26,6 @@ export interface Bicycle {
     | 'Urban Series'
     | 'Premium'
     | 'Budget';
-
   description?: string;
   quantity: number;
   inStock: boolean;
