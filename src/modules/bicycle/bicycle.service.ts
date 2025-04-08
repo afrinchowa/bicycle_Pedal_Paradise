@@ -1,4 +1,3 @@
-
 import { Bicycle, BicycleFilter } from './bicycle.interface';
 import { BicycleModel } from './bicycle.model';
 
@@ -18,7 +17,7 @@ const getAllBicyclesFromDB = async (
   model?: string,
 ) => {
   console.log('Search Term:', searchTerm);
-  let filter : BicycleFilter = {};
+  let filter: BicycleFilter = {};
   if (searchTerm) {
     filter = {
       $or: [
@@ -44,18 +43,18 @@ const getAllBicyclesFromDB = async (
 
   if (maxPrice) {
     if (!filter.price) filter.price = {};
-    filter.price.$lte = maxPrice; 
+    filter.price.$lte = maxPrice;
   }
   if (inStock !== undefined) {
     filter.inStock = inStock;
   }
   if (model) {
-    filter.model = { $regex: model, $options: 'i' }
+    filter.model = { $regex: model, $options: 'i' };
   }
 
-  console.log(filter)
+  console.log(filter);
   const result = await BicycleModel.find(filter).sort({ createdAt: -1 });
-  console.log(filter)
+  console.log(filter);
   return result;
 };
 const getSingleBicycleFromDB = async (id: string) => {

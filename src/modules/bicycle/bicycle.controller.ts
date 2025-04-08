@@ -20,20 +20,28 @@ const createBicycle = async (req: Request, res: Response) => {
 };
 const getAllBicycles = async (req: Request, res: Response) => {
   try {
-
     // const { searchTerm } = req.query;
-    const { searchTerm, brand, category, minPrice, maxPrice, inStock, model } = req.query;
-    console.log("Filters:", { searchTerm, brand, category, minPrice, maxPrice,  inStock, model });
+    const { searchTerm, brand, category, minPrice, maxPrice, inStock, model } =
+      req.query;
+    console.log('Filters:', {
+      searchTerm,
+      brand,
+      category,
+      minPrice,
+      maxPrice,
+      inStock,
+      model,
+    });
     console.log(searchTerm);
     const result = await BicycleServices.getAllBicyclesFromDB(
-      searchTerm as string,  
-      brand as string, 
-      category as string, 
-      minPrice ? parseFloat(minPrice as string) : undefined, 
-      maxPrice ? parseFloat(maxPrice as string) : undefined, 
-      inStock as boolean | undefined, 
+      searchTerm as string,
+      brand as string,
+      category as string,
+      minPrice ? parseFloat(minPrice as string) : undefined,
+      maxPrice ? parseFloat(maxPrice as string) : undefined,
+      inStock as boolean | undefined,
       model as string,
-    )
+    );
 
     res.status(200).json({
       success: true,
@@ -64,46 +72,46 @@ const getSingleBicycle = async (req: Request, res: Response) => {
 
 const updateBicycle = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id
-    const body = req.body
-    const result = await BicycleServices.updateBicycle(id, body)
+    const id = req.params.id;
+    const body = req.body;
+    const result = await BicycleServices.updateBicycle(id, body);
 
     res.send({
       success: true,
       message: 'Bicycle updated successfully',
       result,
-    })
+    });
   } catch (error) {
     res.send({
       success: false,
       message: 'Something went wrong',
       error,
-    })
+    });
   }
-}
+};
 const deleteBicycle = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id
-    const result = await BicycleServices.deleteBicycle(id)
+    const id = req.params.id;
+    const result = await BicycleServices.deleteBicycle(id);
 
     res.send({
       success: true,
       message: 'Bicycle deleted successfully',
       result,
-    })
+    });
   } catch (error) {
     res.send({
       success: false,
       message: 'Something went wrong',
       error,
-    })
+    });
   }
-}
+};
 
 export const BicycleControllers = {
   createBicycle,
   getAllBicycles,
   getSingleBicycle,
   deleteBicycle,
-  updateBicycle
+  updateBicycle,
 };

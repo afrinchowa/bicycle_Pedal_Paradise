@@ -12,14 +12,14 @@ export interface Bicycle {
   name: string;
   brand: string;
   model: string;
-  img:string;
+  img: string;
   price: number;
-  
+
   // Functional type — defines engineering/design purpose
   type: 'Mountain' | 'Road' | 'Hybrid' | 'BMX' | 'Electric';
 
   // Market category — defines audience, style, or placement
-  category: 
+  category:
     | 'Men'
     | 'Women'
     | 'Kids'
@@ -36,7 +36,6 @@ export interface Bicycle {
   inStock: boolean;
   isDeleted: boolean;
 }
-
 
 export interface BicycleFilter {
   $or?: Array<{

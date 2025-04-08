@@ -3,26 +3,30 @@ import cors from 'cors';
 import { BicycleRoutes } from './modules/bicycle/bicycle.route';
 import { OrderRoutes } from './modules/order/order.routes';
 
-
 const app: Application = express();
 
 // parser
 app.use(express.json());
 // app.use(cookieParser());
 
-app.use(cors({origin:'http://localhost:5173',credentials:true}));
+app.use(
+  cors({
+    origin: ['http://localhost:5173', 'https://cycle-sphere-eight.vercel.app'],
+    credentials: true,
+  }),
+);
 // application
-app.use("/api/products", BicycleRoutes);
-app.use('/api/orders', OrderRoutes); 
+app.use('/api/products', BicycleRoutes);
+app.use('/api/orders', OrderRoutes);
 const getAController = (req: Request, res: Response) => {
   // const a = 10;
   // res.send(a);
   res.status(200).json({
-    message:'Welcome to The Bicycle store',
-    a:10
-  })
+    message: 'Welcome to The Bicycle store',
+    a: 10,
+  });
 };
 
-app.get("/", getAController);
+app.get('/', getAController);
 
 export default app;

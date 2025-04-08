@@ -4,4 +4,3 @@ export interface Order {
   quantity: number;
   totalPrice: number;
 }
-

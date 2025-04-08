@@ -1,10 +1,7 @@
- 
 // req and res manage
 
-import { Request, Response } from 'express'
+import { Request, Response } from 'express';
 import { OrderServices } from './order.service';
-
-
 
 const createOrder = async (req: Request, res: Response) => {
   try {
@@ -12,20 +9,18 @@ const createOrder = async (req: Request, res: Response) => {
 
     const result = await OrderServices.createOrderInDB(orderData);
     res.status(201).json({
-      message: "Order created successfully",
+      message: 'Order created successfully',
       status: true,
       data: result,
     });
   } catch (err) {
     res.status(400).json({
       success: false,
-      message: err|| "Failed to create order",
+      message: err || 'Failed to create order',
     });
   }
 };
 
 export const orderController = {
   createOrder,
-
-
-}
+};
