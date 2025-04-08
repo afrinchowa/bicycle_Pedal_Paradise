@@ -64,29 +64,23 @@ const updateBicycle = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const deleteBicycle = async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-    const result = await BicycleServices.deleteBicycle(id);
+// delete a bicycle
+const deleteBicycle = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const result = await BicycleServices.deleteBicycle(id);
 
-    res.send({
-      success: true,
-      message: 'Bicycle deleted successfully',
-      result,
-    });
-  } catch (error) {
-    res.send({
-      success: false,
-      message: 'Something went wrong',
-      error,
-    });
-  }
-};
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Bicycle Deleted successfully!',
+    data: result,
+  });
+});
 
 export const BicycleControllers = {
   createBicycle,
   getAllBicycles,
   getSingleBicycle,
-  deleteBicycle,
   updateBicycle,
+  deleteBicycle,
 };

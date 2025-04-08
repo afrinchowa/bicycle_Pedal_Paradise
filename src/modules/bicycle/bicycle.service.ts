@@ -5,7 +5,7 @@ import httpStatus from 'http-status';
 
 // create a bicycle into db
 const createBicycleIntoDB = async (payload: IBicycle) => {
-  const result = await BicycleModel.create(payload); //
+  const result = await BicycleModel.create(payload);
 
   return result;
 };
@@ -62,12 +62,17 @@ const getAllBicyclesFromDB = async (
 };
 
 // get a single bicycle from db
-
 const getSingleBicycleFromDB = async (id: string) => {
   const result = await BicycleModel.findById(id);
+
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Bicycle not found!');
+  }
+
   return result;
 };
 
+// update bicycle
 const updateBicycle = async (id: string, payload: Partial<IBicycle>) => {
   const result = await BicycleModel.findByIdAndUpdate(id, payload, {
     new: true,
@@ -81,9 +86,19 @@ const updateBicycle = async (id: string, payload: Partial<IBicycle>) => {
   return result;
 };
 
+// soft delete
 const deleteBicycle = async (id: string) => {
-  const result = BicycleModel.findByIdAndDelete(id);
-  return result;
+  const deletedBicycle = await BicycleModel.findByIdAndUpdate(
+    id,
+    { isDeleted: true },
+    { new: true },
+  );
+
+  if (!deletedBicycle) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Failed to delete bicycle');
+  }
+
+  return deletedBicycle;
 };
 
 export const BicycleServices = {
