@@ -4,6 +4,7 @@ import catchAsync from '../../app/utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import httpStatus from 'http-status';
 
+// create bicycle into db
 const createBicycle = catchAsync(async (req: Request, res: Response) => {
   const result = await BicycleServices.createBicycleIntoDB(req.body);
   sendResponse(res, {
@@ -13,40 +14,29 @@ const createBicycle = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
-const getAllBicycles = async (req: Request, res: Response) => {
-  try {
-    // const { searchTerm } = req.query;
-    const { searchTerm, brand, category, minPrice, maxPrice, inStock, model } =
-      req.query;
-    console.log('Filters:', {
-      searchTerm,
-      brand,
-      category,
-      minPrice,
-      maxPrice,
-      inStock,
-      model,
-    });
-    console.log(searchTerm);
-    const result = await BicycleServices.getAllBicyclesFromDB(
-      searchTerm as string,
-      brand as string,
-      category as string,
-      minPrice ? parseFloat(minPrice as string) : undefined,
-      maxPrice ? parseFloat(maxPrice as string) : undefined,
-      inStock as boolean | undefined,
-      model as string,
-    );
 
-    res.status(200).json({
-      success: true,
-      message: 'Bicycles retrieved successfully',
-      data: result,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
+// get all bicycle from db | search and filter bicycle
+const getAllBicycles = catchAsync(async (req: Request, res: Response) => {
+  const { searchTerm, brand, category, minPrice, maxPrice, inStock, model } =
+    req.query;
+
+  const result = await BicycleServices.getAllBicyclesFromDB(
+    searchTerm as string,
+    brand as string,
+    category as string,
+    minPrice ? parseFloat(minPrice as string) : undefined,
+    maxPrice ? parseFloat(maxPrice as string) : undefined,
+    inStock as boolean | undefined,
+    model as string,
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Bicycle retrieved successfully!',
+    data: result,
+  });
+});
 const getSingleBicycle = async (req: Request, res: Response) => {
   try {
     const id = req.params.productId;

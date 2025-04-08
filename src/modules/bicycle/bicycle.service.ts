@@ -52,9 +52,8 @@ const getAllBicyclesFromDB = async (
     filter.model = { $regex: model, $options: 'i' };
   }
 
-  console.log(filter);
+  // console.log(filter);
   const result = await BicycleModel.find(filter).sort({ createdAt: -1 });
-  console.log(filter);
   return result;
 };
 const getSingleBicycleFromDB = async (id: string) => {

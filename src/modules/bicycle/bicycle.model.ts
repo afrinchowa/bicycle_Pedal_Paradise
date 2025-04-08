@@ -68,5 +68,6 @@ const bicycleSchema: Schema = new Schema<IBicycle>(
 );
 
 //checking if a product is already exist!
+//
 
 export const BicycleModel = mongoose.model<IBicycle>('Bicycle', bicycleSchema);
