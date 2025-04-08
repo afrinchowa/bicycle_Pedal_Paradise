@@ -1,49 +1,67 @@
-import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
-import sendResponse from '../../utils/sendResponse';
 import { UserServices } from './user.service';
 
-const createStudent = catchAsync(async (req, res) => {
-  const { password, student: studentData } = req.body;
+const createUser = catchAsync(async (req, res) => {
+  const payload = req.body;
+  const result = await UserServices.createUser(payload);
 
-  const result = await UserServices.createStudentIntoDB(password, studentData);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Student is created succesfully',
+  res.json({
+    status: true,
+    message: 'User created successfully',
     data: result,
   });
 });
 
-const createFaculty = catchAsync(async (req, res) => {
-  const { password, faculty: facultyData } = req.body;
-
-  const result = await UserServices.createFacultyIntoDB(password, facultyData);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Faculty is created succesfully',
-    data: result,
+const getUser = catchAsync(async (req, res) => {
+  const result = await UserServices.getUser();
+  res.send({
+    status: true,
+    message: 'Users getting successfully',
+    result,
   });
 });
 
-const createAdmin = catchAsync(async (req, res) => {
-  const { password, admin: adminData } = req.body;
+const getSingleUser = catchAsync(async (req, res) => {
+  const userId = req.params.userId;
+  const result = await UserServices.getUser(userId);
+  res.send({
+    status: true,
+    message: 'User getting successfully',
+    result,
+  });
+});
 
-  const result = await UserServices.createAdminIntoDB(password, adminData);
+const updateUser = catchAsync(async (req, res) => {
+  const userId = req.params.userId;
+  const body = req.body;
+  const result = await UserServices.updateUser(userId, body);
+  res.send({
+    status: true,
+    message: 'User updated successfully',
+    result,
+  });
+});
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Admin is created succesfully',
-    data: result,
+const deleteUser = catchAsync(async (req, res) => {
+  const userId = req.params.userId;
+  await UserServices.deleteUser(userId);
+  res.send({
+    status: true,
+    message: 'User deleted successfully',
+    result: {},
   });
 });
 
 export const UserControllers = {
+<<<<<<< HEAD
   createStudent,
   createFaculty,
   createAdmin,
+=======
+  createUser,
+  getUser,
+  getSingleUser,
+  updateUser,
+  deleteUser,
+>>>>>>> main
 };

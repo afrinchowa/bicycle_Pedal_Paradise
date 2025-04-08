@@ -1,28 +1,33 @@
 import express from 'express';
 import validateRequest from '../../middlewares/validateRequest';
-import { createAdminValidationSchema } from '../Admin/admin.validation';
-import { createFacultyValidationSchema } from '../Faculty/faculty.validation';
-import { createStudentValidationSchema } from './../student/student.validation';
 import { UserControllers } from './user.controller';
+import userValidationSchema from './userValidation';
+
 
 const router = express.Router();
 
 router.post(
-  '/create-student',
-  validateRequest(createStudentValidationSchema),
-  UserControllers.createStudent,
+  '/create-user',
+  validateRequest(userValidationSchema),
+  UserControllers.createUser
 );
 
-router.post(
-  '/create-faculty',
-  validateRequest(createFacultyValidationSchema),
-  UserControllers.createFaculty,
+router.get('/', UserControllers.getUser);
+router.get('/:userId', UserControllers.getSingleUser);
+router.put(
+  '/:userId',
+  validateRequest(userValidationSchema), // optional: you can create a partial schema for update
+  UserControllers.updateUser
 );
+router.delete('/:userId', UserControllers.deleteUser);
 
+<<<<<<< HEAD
 router.post(
   '/create-admin',
   validateRequest(createAdminValidationSchema),
   UserControllers.createAdmin,
 );
 
+=======
+>>>>>>> main
 export const UserRoutes = router;
