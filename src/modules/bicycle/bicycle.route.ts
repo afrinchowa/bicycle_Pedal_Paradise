@@ -14,9 +14,9 @@ router.post(
 
 router.get('/', BicycleControllers.getAllBicycles);
 
-router.get('/:productId', BicycleControllers.getSingleBicycle);
+router.get('/:id', BicycleControllers.getSingleBicycle);
 
-router.put('/:productId', BicycleControllers.updateBicycle);
+router.put('/:id', BicycleControllers.updateBicycle);
 
-router.delete('/:productId', BicycleControllers.deleteBicycle);
+router.delete('/:id', BicycleControllers.deleteBicycle);
 export const BicycleRoutes = router;

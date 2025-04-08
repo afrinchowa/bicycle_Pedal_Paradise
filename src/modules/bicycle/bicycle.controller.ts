@@ -4,7 +4,7 @@ import catchAsync from '../../app/utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import httpStatus from 'http-status';
 
-// create bicycle into db
+// create bicycle
 const createBicycle = catchAsync(async (req: Request, res: Response) => {
   const result = await BicycleServices.createBicycleIntoDB(req.body);
   sendResponse(res, {
@@ -15,7 +15,7 @@ const createBicycle = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// get all bicycle from db | search and filter bicycle
+// get all bicycle | search and filter bicycle
 const getAllBicycles = catchAsync(async (req: Request, res: Response) => {
   const { searchTerm, brand, category, minPrice, maxPrice, inStock, model } =
     req.query;
@@ -37,23 +37,16 @@ const getAllBicycles = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
-const getSingleBicycle = async (req: Request, res: Response) => {
-  try {
-    const id = req.params.productId;
-    const result = await BicycleServices.getSingleBicycleFromDB(id);
-    res.status(200).json({
-      success: true,
-      message: 'Bicycles retrieved successfully',
-      data: result,
-    });
-  } catch (err) {
-    res.status(500).json({
-      success: true,
-      message: 'Something went wrong',
-      error: err,
-    });
-  }
-};
+const getSingleBicycle = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await BicycleServices.getSingleBicycleFromDB(id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Bicycle retrieved successfully!',
+    data: result,
+  });
+});
 
 const updateBicycle = async (req: Request, res: Response) => {
   try {
