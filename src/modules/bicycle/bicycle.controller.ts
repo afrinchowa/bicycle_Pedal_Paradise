@@ -37,6 +37,8 @@ const getAllBicycles = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+
+// get a single bicycle
 const getSingleBicycle = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const result = await BicycleServices.getSingleBicycleFromDB(id);
@@ -48,25 +50,20 @@ const getSingleBicycle = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const updateBicycle = async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-    const body = req.body;
-    const result = await BicycleServices.updateBicycle(id, body);
+// update a single bicycle
+const updateBicycle = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const body = req.body;
+  const result = await BicycleServices.updateBicycle(id, body);
 
-    res.send({
-      success: true,
-      message: 'Bicycle updated successfully',
-      result,
-    });
-  } catch (error) {
-    res.send({
-      success: false,
-      message: 'Something went wrong',
-      error,
-    });
-  }
-};
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Bicycle updated successfully!',
+    data: result,
+  });
+});
+
 const deleteBicycle = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;

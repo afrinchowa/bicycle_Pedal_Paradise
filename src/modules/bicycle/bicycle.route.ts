@@ -16,7 +16,11 @@ router.get('/', BicycleControllers.getAllBicycles);
 
 router.get('/:id', BicycleControllers.getSingleBicycle);
 
-router.put('/:id', BicycleControllers.updateBicycle);
+router.patch(
+  '/:id',
+  validateRequest(bicycleValidation.updateBicycleSchemaValidation),
+  BicycleControllers.updateBicycle,
+);
 
 router.delete('/:id', BicycleControllers.deleteBicycle);
 export const BicycleRoutes = router;
