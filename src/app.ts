@@ -5,6 +5,7 @@ import { BicycleRoutes } from './modules/bicycle/bicycle.route';
 import { UserRoutes } from './app/modules/user/user.route';
 import authRoute from './app/modules/auth/auth.route';
 import orderRouter from './modules/order/order.router';
+import globalErrorHandler from './app/middlewares/globalErrorhandler';
 // import cookieParser from 'cookie-parser';  // If you plan to use cookies, uncomment this
 
 const app: Application = express();
@@ -26,8 +27,10 @@ app.use('/api', orderRouter);
 app.get('/', (req: Request, res: Response) => {
   res.send({
     status: true,
-    message: 'server live'
+    message: 'server live',
   });
 });
+
+app.use(globalErrorHandler);
 
 export default app;

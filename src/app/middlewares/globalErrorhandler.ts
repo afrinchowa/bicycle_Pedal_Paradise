@@ -10,7 +10,6 @@ import handleValidationError from '../errors/handleValidationError';
 import handleCastError from '../errors/handleCastError';
 import handleDuplicateError from '../errors/handleDuplicateError';
 
-
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   //setting default values
   let statusCode = 500;

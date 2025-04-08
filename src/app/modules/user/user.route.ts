@@ -3,13 +3,12 @@ import validateRequest from '../../middlewares/validateRequest';
 import { UserControllers } from './user.controller';
 import userValidationSchema from './userValidation';
 
-
 const router = express.Router();
 
 router.post(
   '/create-user',
   validateRequest(userValidationSchema),
-  UserControllers.createUser
+  UserControllers.createUser,
 );
 
 router.get('/', UserControllers.getUser);
@@ -17,7 +16,7 @@ router.get('/:userId', UserControllers.getSingleUser);
 router.put(
   '/:userId',
   validateRequest(userValidationSchema), // optional: you can create a partial schema for update
-  UserControllers.updateUser
+  UserControllers.updateUser,
 );
 router.delete('/:userId', UserControllers.deleteUser);
 
