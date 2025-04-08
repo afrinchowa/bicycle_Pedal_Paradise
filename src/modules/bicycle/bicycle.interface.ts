@@ -36,3 +36,18 @@ export interface Bicycle {
   inStock: boolean;
   isDeleted: boolean;
 }
+
+
+export interface BicycleFilter {
+  $or?: Array<{
+    name?: { $regex: string; $options: string };
+    brand?: { $regex: string; $options: string };
+    category?: { $regex: string; $options: string };
+  }>;
+  name?: { $regex: string; $options: string };
+  brand?: { $regex: string; $options: string };
+  category?: { $regex: string; $options: string };
+  price?: { $gte?: number; $lte?: number };
+  inStock?: boolean;
+  model?: { $regex: string; $options: string };
+}

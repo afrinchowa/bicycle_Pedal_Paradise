@@ -21,9 +21,20 @@ const createBicycle = async (req: Request, res: Response) => {
 const getAllBicycles = async (req: Request, res: Response) => {
   try {
 
-    const { searchTerm } = req.query;
+    // const { searchTerm } = req.query;
+    const { searchTerm, brand, category, minPrice, maxPrice, inStock, model } = req.query;
+    console.log("Filters:", { searchTerm, brand, category, minPrice, maxPrice,  inStock, model });
     console.log(searchTerm);
-    const result = await BicycleServices.getAllBicyclesFromDB(searchTerm as string);
+    const result = await BicycleServices.getAllBicyclesFromDB(
+      searchTerm as string,  
+      brand as string, 
+      category as string, 
+      minPrice ? parseFloat(minPrice as string) : undefined, 
+      maxPrice ? parseFloat(maxPrice as string) : undefined, 
+      inStock as boolean | undefined, 
+      model as string,
+    )
+
     res.status(200).json({
       success: true,
       message: 'Bicycles retrieved successfully',
