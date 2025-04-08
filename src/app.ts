@@ -14,7 +14,16 @@ app.use(express.json());
 // app.use(cookieParser());  // Uncomment if cookies are to be used
 
 // CORS setup
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(
+  cors({
+    origin: [
+      'http://localhost:5173',
+      'https://cycle-sphere-eight.vercel.app',
+      // more live links from more branches
+    ],
+    credentials: true,
+  }),
+);
 
 // Routes
 app.use('/api/auth', authRoute);
