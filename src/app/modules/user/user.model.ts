@@ -16,7 +16,7 @@ const userSchema = new Schema<TUser>(
       type: String,
       required: [true, 'User ID is required'],
       unique: true,
-      default: uuidv4, 
+      default: uuidv4,
       // // Uncomment if you want automatic UUIDs
     },
     name: {
@@ -42,7 +42,7 @@ const userSchema = new Schema<TUser>(
       type: String,
       required: [true, 'Password is required'],
       minlength: [6, 'Password must be at least 6 characters long'],
-      select:false
+      select: false,
     },
     role: {
       type: String,
@@ -63,14 +63,17 @@ const userSchema = new Schema<TUser>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // 🔐 Optional: Hash password before saving
 userSchema.pre('save', async function (next) {
   const user = this;
   if (user.isModified('password')) {
-    user.password = await bcrypt.hash(user.password, Number(config.bcrypt_salt_rounds));
+    user.password = await bcrypt.hash(
+      user.password,
+      Number(config.bcrypt_salt_rounds),
+    );
   }
   next();
 });

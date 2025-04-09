@@ -21,7 +21,7 @@ const getSingleUser = async (id: string) => {
 const updateUser = async (id: string, data: TUser) => {
   const user = await User.findById(id);
   if (!user) {
-    return null;  // If user not found, return null
+    return null; // If user not found, return null
   }
 
   const updatedUser = await User.findByIdAndUpdate(id, data, { new: true });
@@ -31,7 +31,7 @@ const updateUser = async (id: string, data: TUser) => {
 const deleteUser = async (id: string) => {
   const user = await User.findById(id);
   if (!user) {
-    return null;  // If user not found, return null
+    return null; // If user not found, return null
   }
 
   await User.findByIdAndDelete(id);
