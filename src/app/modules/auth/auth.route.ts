@@ -1,7 +1,5 @@
 import { Router } from 'express';
 
-<<<<<<< HEAD
-import { Router } from "express";
 
 import { AuthController } from "./auth.controller";
 import validateRequest from "../../middlewares/validateRequest";
@@ -16,18 +14,5 @@ authRoute.post('/register', validateRequest(userValidationSchema), AuthControlle
 authRoute.post('/login',validateRequest(AuthValidation.loginValidationSchema
 
 ),AuthController.login)
-=======
-import { AuthController } from './auth.controller';
-import validateRequest from '../../middlewares/validateRequest';
-import userValidationSchema from '../user/userValidation';
-
-const authRoute = Router();
-
-authRoute.post(
-  '/register',
-  validateRequest(userValidationSchema),
-  AuthController.register,
-);
->>>>>>> origin/fahima
 
 export default authRoute;
