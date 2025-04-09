@@ -1,11 +1,11 @@
-import Product from '../product/product.model';
+import { BicycleModel } from '../bicycle/bicycle.model';
 import { TOrder } from './order.interface';
 import Order from './order.model';
 
 const createOrder = async (payload: TOrder): Promise<TOrder> => {
   const result = await Order.create(payload);
 
-  const product = await Product.findById(payload.product);
+  const product = await BicycleModel.findById(payload.product);
 
   if (product) {
     const newQuantity = product.quantity - payload.quantity;
@@ -14,11 +14,16 @@ const createOrder = async (payload: TOrder): Promise<TOrder> => {
       inStock: newQuantity > 0,
     };
 
-    await Product.findByIdAndUpdate(payload.product, updateData);
+    await BicycleModel.findByIdAndUpdate(payload.product, updateData);
 
     console.log(newQuantity);
   }
 
+  return result;
+};
+
+const getOrder = async () => {
+  const result = await Order.find();
   return result;
 };
 
@@ -37,5 +42,6 @@ const orderRevenue = async () => {
 
 export const orderService = {
   createOrder,
+  getOrder,
   orderRevenue,
 };

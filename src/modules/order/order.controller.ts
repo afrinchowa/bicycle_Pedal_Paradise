@@ -31,6 +31,20 @@ const createOrder = async (req: Request, res: Response) => {
   }
 };
 
+const getOrder = async (req: Request, res: Response) => {
+  try {
+    const result = await orderService.getOrder();
+
+    res.send({
+      message: 'Orders retrieved successfully',
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    res.json(error);
+  }
+};
+
 const orderRevenue = async (req: Request, res: Response) => {
   try {
     const result = await orderService.orderRevenue();
@@ -47,5 +61,6 @@ const orderRevenue = async (req: Request, res: Response) => {
 
 export const orderController = {
   createOrder,
+  getOrder,
   orderRevenue,
 };

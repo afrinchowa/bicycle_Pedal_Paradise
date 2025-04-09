@@ -10,3 +10,6 @@ export default {
   bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
 };
 // console.log(path);
+
+console.log('Database URL:', process.env.DATABASE_URL);
+
