@@ -27,6 +27,16 @@ const getOrder = async () => {
   return result;
 };
 
+const getOrdersByUserEmail = async (email?: string) => {
+  try {
+    const query = email ? { email } : {};
+    const orders = await Order.find(query);
+    return orders;
+  } catch (error: any) {
+    throw new Error(`Error fetching orders: ${error.message}`);
+  }
+};
+
 const orderRevenue = async () => {
   const result = await Order.aggregate([
     {
@@ -43,5 +53,6 @@ const orderRevenue = async () => {
 export const orderService = {
   createOrder,
   getOrder,
+  getOrdersByUserEmail,
   orderRevenue,
 };
