@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -34,3 +35,16 @@ export const AuthService={
     register,
     login
 };
+=======
+import { TUser } from '../user/user.interface';
+import { User } from '../user/user.model';
+
+const register = async (payload: TUser) => {
+  const result = await User.create(payload);
+  return result;
+};
+
+export const AuthService = {
+  register,
+};
+>>>>>>> origin/fahima

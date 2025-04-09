@@ -1,17 +1,22 @@
 import express from 'express';
 import { BicycleControllers } from './bicycle.controller';
-
+import validateRequest from '../../app/middlewares/validateRequest';
+import { bicycleValidation } from './bicycle.validation';
 
 const router = express.Router();
 
 // will call controller func
-router.post('/create-Bicycle', BicycleControllers.createBicycle);
+router.post(
+  '/create-Bicycle',
+  validateRequest(bicycleValidation.createBicycleSchemaValidation),
+  BicycleControllers.createBicycle,
+);
 
 router.get('/', BicycleControllers.getAllBicycles);
 
-router.get('/:productId', BicycleControllers.getSingleBicycle);
+router.get('/:id', BicycleControllers.getSingleBicycle);
 
-router.put('/:productId', BicycleControllers.updateBicycle);
+router.put('/:id', BicycleControllers.updateBicycle);
 
-router.delete('/:productId', BicycleControllers.deleteBicycle);
+router.delete('/:id', BicycleControllers.deleteBicycle);
 export const BicycleRoutes = router;
