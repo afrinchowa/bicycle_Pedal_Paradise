@@ -1,8 +1,6 @@
-import AppError from '../../app/errors/AppError';
 import { BicycleModel } from '../bicycle/bicycle.model';
 import { Order } from './order.interface';
 import { OrderModel } from './order.model';
-import httpStatus from 'http-status';
 
 const createOrderInDB = async (orderData: Order) => {
   const product = await BicycleModel.findById(orderData.product);
@@ -21,16 +19,10 @@ const createOrderInDB = async (orderData: Order) => {
   return order;
 };
 
-// get all orders
-const getAllOrdersFromDB = async () => {
-  const result = await OrderModel.find().populate('product');
-  if (!result) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Bicycle not found!');
-  }
-  return result;
-};
-
 export const OrderServices = {
   createOrderInDB,
-  getAllOrdersFromDB,
+};
+
+export const orderService = {
+  createOrderInDB,
 };
