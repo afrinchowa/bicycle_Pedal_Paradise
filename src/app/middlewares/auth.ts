@@ -18,10 +18,11 @@ const auth = (...requiredRole: string[]) => {
     if (!user) {
       throw new Error('User not Found');
     }
-    if (requiredRole == (role)) {
+    if (requiredRole && !requiredRole.includes(role)) {
       throw new Error('You are not authorized ');
     }
     req.user = decoded as JwtPayload;
+    next()
   });
 };
 export default auth;
