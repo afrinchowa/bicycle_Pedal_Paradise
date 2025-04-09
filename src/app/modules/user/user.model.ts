@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
 /* eslint-disable no-useless-escape */
 import { v4 as uuidv4 } from 'uuid';
 
 import { Schema, model } from 'mongoose';
 import { TUser } from './user.interface';
-// import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
+import config from '../../config';
+
 // import config from '../../config';
 // import { v4 as uuidv4 } from 'uuid'; // Optional: Auto-generate id
 
@@ -39,12 +42,13 @@ const userSchema = new Schema<TUser>(
       type: String,
       required: [true, 'Password is required'],
       minlength: [6, 'Password must be at least 6 characters long'],
+      select:false
     },
     role: {
       type: String,
       enum: {
         values: ['user', 'admin'],
-        message: 'Role must be either user or admin',
+        message: '{VALUE} is not valid ,Role must be either user or admin',
       },
       required: [true, 'Role is required'],
     },
@@ -63,18 +67,18 @@ const userSchema = new Schema<TUser>(
 );
 
 // 🔐 Optional: Hash password before saving
-// userSchema.pre('save', async function (next) {
-//   const user = this;
-//   if (user.isModified('password')) {
-//     user.password = await bcrypt.hash(user.password, Number(config.bcrypt_salt_rounds));
-//   }
-//   next();
-// });
+userSchema.pre('save', async function (next) {
+  const user = this;
+  if (user.isModified('password')) {
+    user.password = await bcrypt.hash(user.password, Number(config.bcrypt_salt_rounds));
+  }
+  next();
+});
 
-// 🔐 Optional: Remove password from result after saving
-// userSchema.post('save', function (doc, next) {
-//   doc.password = '';
-//   next();
-// });
+// Remove password from result after saving
+userSchema.post('save', function (doc, next) {
+  doc.password = '';
+  next();
+});
 
 export const User = model<TUser>('User', userSchema);
