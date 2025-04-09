@@ -67,6 +67,23 @@ const bicycleSchema: Schema = new Schema<IBicycle>(
   { timestamps: true },
 );
 
+// soft delete
+// filter out deleted documents
+bicycleSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+bicycleSchema.pre('findOne', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+bicycleSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  next();
+});
+
 //checking if a product is already exist!
 //
 
