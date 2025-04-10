@@ -1,26 +1,32 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import { model, Schema } from 'mongoose';
+import { TOrder } from './order.interface';
 
-interface Order extends Document {
-  email: string;
-  product: mongoose.Types.ObjectId; // This should be ObjectId, as it's a reference to the 'Bicycle' collection
-  quantity: number;
-  totalPrice: number;
-}
-
-const orderSchema: Schema = new Schema<Order>(
+const orderSchema = new Schema<TOrder>(
   {
     email: { type: String, required: true },
-    product: {
-      type: Schema.Types.ObjectId, // Correct type for a reference to another collection
-      ref: 'Bicycle', // Reference to the 'Bicycle' collection
-      required: true,
-    },
+    product: { type: Schema.Types.ObjectId, required: true },
     quantity: { type: Number, required: true },
+    status: {
+      type: String,
+      enum: ['Pending', 'Paid', 'Completed', 'Cancelled'],
+      default: 'Pending',
+    },
+    transaction: {
+      id: String,
+      transactionStatus: String,
+      bank_status: String,
+      sp_code: String,
+      sp_message: String,
+      method: String,
+      date_time: String,
+    },
     totalPrice: { type: Number, required: true },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+    versionKey: false,
+  }
 );
 
-const OrderModel = mongoose.model<Order>('Order', orderSchema);
-
-export { OrderModel };
+const Order = model<TOrder>('Order', orderSchema);
+export default Order;

@@ -1,28 +1,58 @@
 import { BicycleModel } from '../bicycle/bicycle.model';
-import { Order } from './order.interface';
-import { OrderModel } from './order.model';
+import { TOrder } from './order.interface';
+import Order from './order.model';
 
-const createOrderInDB = async (orderData: Order) => {
-  const product = await BicycleModel.findById(orderData.product);
-  if (!product) throw new Error('Product not found');
+const createOrder = async (payload: TOrder): Promise<TOrder> => {
+  const result = await Order.create(payload);
 
-  if (product.quantity < orderData.quantity)
-    throw new Error('Insufficient stock');
+  const product = await BicycleModel.findById(payload.product);
 
-  product.quantity -= orderData.quantity;
-  product.inStock = product.quantity > 0;
-  await product.save();
+  if (product) {
+    const newQuantity = product.quantity - payload.quantity;
+    const updateData = {
+      quantity: newQuantity,
+      inStock: newQuantity > 0,
+    };
 
-  const totalPrice = orderData.quantity * product.price;
-  const order = await OrderModel.create({ ...orderData, totalPrice });
+    await BicycleModel.findByIdAndUpdate(payload.product, updateData);
 
-  return order;
+    console.log(newQuantity);
+  }
+
+  return result;
 };
 
-export const OrderServices = {
-  createOrderInDB,
+const getOrder = async () => {
+  const result = await Order.find();
+  return result;
+};
+
+const getOrdersByUserEmail = async (email?: string) => {
+  try {
+    const query = email ? { email } : {};
+    const orders = await Order.find(query);
+    return orders;
+  } catch (error: any) {
+    throw new Error(`Error fetching orders: ${error.message}`);
+  }
+};
+
+const orderRevenue = async () => {
+  const result = await Order.aggregate([
+    {
+      $group: {
+        _id: null,
+        totalRevenue: { $sum: '$totalPrice' },
+      },
+    },
+  ]);
+
+  return result[0]?.totalRevenue || 0;
 };
 
 export const orderService = {
-  createOrderInDB,
+  createOrder,
+  getOrder,
+  getOrdersByUserEmail,
+  orderRevenue,
 };
