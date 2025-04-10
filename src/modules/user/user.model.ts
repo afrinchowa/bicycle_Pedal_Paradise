@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Schema, model } from 'mongoose';
 import { TUser } from './user.interface';
 import bcrypt from 'bcrypt';
-import config from '../../config';
+import config from '../../app/config';
 
 // import config from '../../config';
 // import { v4 as uuidv4 } from 'uuid'; // Optional: Auto-generate id

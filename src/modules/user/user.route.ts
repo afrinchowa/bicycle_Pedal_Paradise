@@ -1,8 +1,8 @@
 import express, { NextFunction, Request, Response } from 'express';
-import validateRequest from '../../middlewares/validateRequest';
+import validateRequest from '../../app/middlewares/validateRequest';
 import { UserControllers } from './user.controller';
 import userValidationSchema from './userValidation';
-import auth from '../../middlewares/auth';
+import auth from '../../app/middlewares/auth';
 
 const router = express.Router();
 
@@ -36,5 +36,5 @@ router.delete('/:userId', UserControllers.deleteUser);
 
 // authorization
 
-router.get('/',auth("admin") ,UserControllers.getUser);
+router.get('/', auth('admin'), UserControllers.getUser);
 export const UserRoutes = router;
