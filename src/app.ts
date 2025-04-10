@@ -2,8 +2,8 @@ import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import { BicycleRoutes } from './modules/bicycle/bicycle.route';
 // import { OrderRoutes } from './modules/order/order.routes';
-import { UserRoutes } from './app/modules/user/user.route';
-import authRoute from './app/modules/auth/auth.route';
+import { UserRoutes } from './modules/user/user.route';
+import authRoute from './modules/auth/auth.route';
 import orderRouter from './modules/order/order.router';
 import globalErrorHandler from './app/middlewares/globalErrorhandler';
 // import cookieParser from 'cookie-parser';  // If you plan to use cookies, uncomment this
@@ -28,9 +28,9 @@ app.use(
 );
 
 // Routes
-app.use("/api/auth",authRoute );
-app.use("/api/users", UserRoutes);
-app.use("/api/products", BicycleRoutes);
+app.use('/api/auth', authRoute);
+app.use('/api/users', UserRoutes);
+app.use('/api/products', BicycleRoutes);
 app.use('/api', orderRouter);
 
 // Health check route

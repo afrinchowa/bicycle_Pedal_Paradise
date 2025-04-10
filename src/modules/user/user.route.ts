@@ -1,11 +1,8 @@
 import express, { NextFunction, Request, Response } from 'express';
-import validateRequest from '../../middlewares/validateRequest';
+import validateRequest from '../../app/middlewares/validateRequest';
 import { UserControllers } from './user.controller';
 import userValidationSchema from './userValidation';
-<<<<<<< HEAD
-import auth from '../../middlewares/auth';
-=======
->>>>>>> origin/fahima
+import auth from '../../app/middlewares/auth';
 
 const router = express.Router();
 
@@ -16,7 +13,6 @@ const router = express.Router();
 // );
 router.post(
   '/create-user',
-<<<<<<< HEAD
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       console.log({ body: req.body });
@@ -28,10 +24,6 @@ router.post(
       next(error);
     }
   },
-=======
-  validateRequest(userValidationSchema),
-  UserControllers.createUser,
->>>>>>> origin/fahima
 );
 
 router.get('/:userId', UserControllers.getSingleUser);
@@ -44,5 +36,5 @@ router.delete('/:userId', UserControllers.deleteUser);
 
 // authorization
 
-router.get('/',auth("admin") ,UserControllers.getUser);
+router.get('/', auth('admin'), UserControllers.getUser);
 export const UserRoutes = router;

@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import { BicycleServices } from './bicycle.service';
 import catchAsync from '../../app/utils/catchAsync';
-import sendResponse from '../../utils/sendResponse';
+
 import httpStatus from 'http-status';
+import sendResponse from '../../app/utils/sendResponse';
 
 // create bicycle
 const createBicycle = catchAsync(async (req: Request, res: Response) => {
