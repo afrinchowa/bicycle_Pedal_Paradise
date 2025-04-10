@@ -5,7 +5,7 @@ const createOrder = async (req: Request, res: Response) => {
   try {
     const payload = req.body;
 
-    const result = await orderService.createOrder(payload);
+    const result = await orderService.createOrder(payload, req.ip, res);
 
     const response = {
       _id: result._id,
@@ -17,11 +17,11 @@ const createOrder = async (req: Request, res: Response) => {
       updatedAt: result.updatedAt || new Date().toISOString(),
     };
 
-    res.json({
-      message: 'Order created successfully',
-      success: true,
-      data: response,
-    });
+    // res.json({
+    //   message: 'Order created successfully',
+    //   success: true,
+    //   data: response,
+    // });
   } catch (error) {
     res.json({
       status: false,

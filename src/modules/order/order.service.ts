@@ -1,8 +1,10 @@
+import { TUser } from '../../app/modules/user/user.interface';
 import { BicycleModel } from '../bicycle/bicycle.model';
 import { TOrder } from './order.interface';
 import Order from './order.model';
+import { orderUtils } from './order.utils';
 
-const createOrder = async (payload: TOrder): Promise<TOrder> => {
+const createOrder = async (user: TUser, payload: TOrder, client_ip:string, res): Promise<TOrder> => {
   const result = await Order.create(payload);
 
   const product = await BicycleModel.findById(payload.product);
@@ -20,10 +22,21 @@ const createOrder = async (payload: TOrder): Promise<TOrder> => {
   }
 
 // Payment Integration
+const shurjoPayload={
+  amount:payload.totalPrice,
+  order_id:result._id,
+  currency:"BDT",
+  customer_name:user.name,
+  customer_address:user.email,
+  customer_email:user.email,
+  customer_phone:"N/A",
+  customer_city:"N/A",
+  client_ip,
+};
 
+const payment = await orderUtils.makePayment(shurjoPayload, res)
 
-
-  return result;
+  return {result, payment};
 };
 
 const getOrder = async () => {
