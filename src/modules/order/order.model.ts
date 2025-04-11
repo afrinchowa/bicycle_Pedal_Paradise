@@ -13,9 +13,15 @@ const orderSchema = new Schema<TOrder>(
     quantity: { type: Number, required: true },
     status: {
       type: String,
-      enum: ['Pending', 'Paid', 'Completed', 'Cancelled'],
+      enum: ['Pending', 'Paid', 'Cancelled'],
       default: 'Pending',
     },
+    transaction: {
+      id: { type: String },
+      transactionStatus: { type: String },
+      checkoutUrl: { type: String },
+    },
+
     totalPrice: { type: Number, required: true },
   },
   {
