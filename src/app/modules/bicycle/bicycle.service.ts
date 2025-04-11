@@ -1,4 +1,4 @@
-import AppError from '../../app/errors/AppError';
+import AppError from '../../errors/AppError';
 import { BicycleFilter, IBicycle } from './bicycle.interface';
 import { BicycleModel } from './bicycle.model';
 import httpStatus from 'http-status';
