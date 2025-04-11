@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, RequestHandler, Response } from 'express';
 import { orderService } from './order.service';
 
 const createOrder = async (req: Request, res: Response) => {
@@ -45,6 +45,40 @@ const getOrder = async (req: Request, res: Response) => {
   }
 };
 
+const getOrdersOfUsers: RequestHandler = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { email } = req.query;
+    let result;
+    if (email) {
+      result = await orderService.getOrdersByUserEmail(email as string);
+    } else {
+      result = await orderService.getOrder();
+    }
+    if (!result || result.length === 0) {
+      res.status(404).json({
+        message: 'No orders found.',
+        success: false,
+      });
+      return;
+    }
+    res.json({
+      message: 'Orders retrieved successfully',
+      success: true,
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      message: 'Something went wrong',
+      success: false,
+      error: err.message,
+      stack: err.stack,
+    });
+  }
+};
+
 const orderRevenue = async (req: Request, res: Response) => {
   try {
     const result = await orderService.orderRevenue();
@@ -62,5 +96,6 @@ const orderRevenue = async (req: Request, res: Response) => {
 export const orderController = {
   createOrder,
   getOrder,
+  getOrdersOfUsers,
   orderRevenue,
 };
