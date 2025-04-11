@@ -1,32 +1,68 @@
 import { Request, RequestHandler, Response } from 'express';
 import { orderService } from './order.service';
+import catchAsync from '../../app/utils/catchAsync';
+import Order from './order.model';
+import { orderUtils } from './order.utils';
 
-const createOrder = async (req: Request, res: Response) => {
+export const createOrder = async (req: Request, res: Response) => {
   try {
     const payload = req.body;
 
     const result = await orderService.createOrder(payload);
 
-    const response = {
-      _id: result._id,
-      email: result.email,
-      product: result.product,
-      quantity: result.quantity,
-      totalPrice: result.totalPrice,
-      createdAt: result.createdAt || new Date().toISOString(),
-      updatedAt: result.updatedAt || new Date().toISOString(),
+    const shurjoPayPayload = {
+      amount: result.totalPrice,
+      order_id: result._id,
+      currency: 'BDT',
+      customer_name: result.email,
+      customer_address: 'Bangladesh',
+      customer_phone: '0123456789',
+      customer_city: 'Dhaka',
+      client_ip: '192.168.0.256',
     };
 
-    res.json({
-      message: 'Order created successfully',
+    let paymentResponse;
+    try {
+      paymentResponse = await orderUtils.makePayment(shurjoPayPayload);
+
+      if (paymentResponse?.transactionStatus) {
+        await Order.updateOne(
+          { _id: result._id },
+          {
+            $set: {
+              'transaction.id': paymentResponse.sp_order_id,
+              'transaction.transactionStatus':
+                paymentResponse.transactionStatus,
+              'transaction.checkoutUrl': paymentResponse.checkout_url,
+            },
+          },
+        );
+      }
+    } catch (paymentError) {
+      const errorMessage = (paymentError as Error).message;
+      paymentResponse = { error: errorMessage };
+    }
+
+    // ✅ Respond once with order & payment
+    return res.status(201).json({
+      message: 'Order processed successfully',
       success: true,
-      data: response,
+      data: {
+        _id: result._id,
+        email: result.email,
+        product: result.product,
+        quantity: result.quantity,
+        totalPrice: result.totalPrice,
+        createdAt: result.createdAt || new Date().toISOString(),
+        updatedAt: result.updatedAt || new Date().toISOString(),
+      },
+      payment: paymentResponse,
     });
   } catch (error) {
-    res.json({
-      status: false,
-      message: 'Error',
-      error,
+    return res.status(500).json({
+      success: false,
+      message: 'Order creation failed',
+      error: (error as Error).message,
     });
   }
 };
@@ -47,7 +83,7 @@ const getOrder = async (req: Request, res: Response) => {
 
 const getOrdersOfUsers: RequestHandler = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const { email } = req.query;
@@ -93,9 +129,19 @@ const orderRevenue = async (req: Request, res: Response) => {
   }
 };
 
+const verifyPayment = catchAsync(async (req, res) => {
+  const order = await orderService.verifyPayment(req.query.order_id as string);
+  res.status(201).json({
+    message: 'Order verified successfully',
+    status: true,
+    data: order,
+  });
+});
+
 export const orderController = {
   createOrder,
   getOrder,
   getOrdersOfUsers,
   orderRevenue,
+  verifyPayment,
 };
