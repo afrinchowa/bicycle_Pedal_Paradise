@@ -1,5 +1,7 @@
-import Shurjopay, { PaymentResponse } from 'shurjopay';
-import config from '../../app/config';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import Shurjopay from 'shurjopay';
+import config from '../../config';
+// import config from '../../app/config';
 const shurjopay = new Shurjopay();
 
 shurjopay.config(

@@ -1,6 +1,6 @@
 import express from 'express';
 import { BicycleControllers } from './bicycle.controller';
-import validateRequest from '../../app/middlewares/validateRequest';
+import validateRequest from '../../middlewares/validateRequest';
 import { bicycleValidation } from './bicycle.validation';
 
 const router = express.Router();
