@@ -31,7 +31,9 @@ export const createOrder = catchAsync(async (req: Request, res: Response) => {
   let paymentResponse: PaymentResponse;
 
   try {
-    paymentResponse = await orderUtils.makePayment(shurjoPayPayload) as PaymentResponse;
+    paymentResponse = (await orderUtils.makePayment(
+      shurjoPayPayload,
+    )) as PaymentResponse;
 
     if (paymentResponse?.transactionStatus) {
       await Order.updateOne(

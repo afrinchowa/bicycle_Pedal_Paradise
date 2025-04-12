@@ -1,6 +1,5 @@
 Bicycle Store API
 
-important: credentials
 Credentials: "data": {
 "name": "Bainary1",
 "email": "bainary1@example.com",
