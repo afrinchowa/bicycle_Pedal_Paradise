@@ -19,8 +19,8 @@ app.use(
   cors({
     origin: [
       'http://localhost:5173',
-      'https://cycle-sphere-eight.vercel.app',
       'https://cycle-sphere.vercel.app',
+      'http://localhost:5174',
       // more live links from more branches
     ],
     credentials: true,
