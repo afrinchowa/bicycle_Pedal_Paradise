@@ -1,5 +1,3 @@
- 
- 
 import { NextFunction, Request, Response } from 'express';
 import catchAsync from '../utils/catchAsync';
 import jwt, { JwtPayload } from 'jsonwebtoken';
@@ -22,7 +20,7 @@ const auth = (...requiredRole: string[]) => {
       throw new Error('You are not authorized ');
     }
     req.user = decoded as JwtPayload;
-    next()
+    next();
   });
 };
 export default auth;

@@ -20,7 +20,7 @@ app.use(
     origin: [
       'http://localhost:5173',
       'https://cycle-sphere.vercel.app',
-      "http://localhost:5174"
+      'http://localhost:5174',
       // more live links from more branches
     ],
     credentials: true,
@@ -28,9 +28,9 @@ app.use(
 );
 
 // Routes
-app.use("/api/auth",authRoute );
-app.use("/api/users", UserRoutes);
-app.use("/api/products", BicycleRoutes);
+app.use('/api/auth', authRoute);
+app.use('/api/users', UserRoutes);
+app.use('/api/products', BicycleRoutes);
 app.use('/api', orderRouter);
 
 // Health check route

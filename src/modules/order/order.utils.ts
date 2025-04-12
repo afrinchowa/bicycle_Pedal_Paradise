@@ -1,4 +1,4 @@
-import Shurjopay from 'shurjopay';
+import Shurjopay, { PaymentResponse } from 'shurjopay';
 import config from '../../app/config';
 const shurjopay = new Shurjopay();
 
@@ -10,12 +10,24 @@ shurjopay.config(
   config.sp_returnUrl!,
 );
 // console.log(shurjopay);
-const makePayment = async (paymentPayload: any) => {
+// const makePayment = async (paymentPayload: any) => {
+//   return new Promise((resolve, reject) => {
+//     shurjopay.makePayment(
+//       paymentPayload,
+//       (response) => resolve(response),
+//       (err) => reject(err),
+//     );
+//   });
+// };
+
+const makePaymentAsync = async (
+  paymentPayload: any,
+): Promise<PaymentResponse> => {
   return new Promise((resolve, reject) => {
     shurjopay.makePayment(
       paymentPayload,
       (response) => resolve(response),
-      (err) => reject(err),
+      (error) => reject(error),
     );
   });
 };
@@ -28,7 +40,8 @@ const verifyPayment = (order_id: string) => {
     );
   });
 };
+
 export const orderUtils = {
-  makePayment,
+  makePaymentAsync,
   verifyPayment,
 };

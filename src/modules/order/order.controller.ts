@@ -4,7 +4,7 @@ import catchAsync from '../../app/utils/catchAsync';
 import Order from './order.model';
 import { orderUtils } from './order.utils';
 
-export const createOrder = async (req: Request, res: Response) => {
+const createOrder: RequestHandler = async (req: Request, res: Response) => {
   try {
     const payload = req.body;
 
@@ -23,7 +23,7 @@ export const createOrder = async (req: Request, res: Response) => {
 
     let paymentResponse;
     try {
-      paymentResponse = await orderUtils.makePayment(shurjoPayPayload);
+      paymentResponse = await orderUtils.makePaymentAsync(shurjoPayPayload);
 
       if (paymentResponse?.transactionStatus) {
         await Order.updateOne(
@@ -44,7 +44,7 @@ export const createOrder = async (req: Request, res: Response) => {
     }
 
     // ✅ Respond once with order & payment
-    return res.status(201).json({
+    res.status(201).json({
       message: 'Order processed successfully',
       success: true,
       data: {
@@ -59,7 +59,7 @@ export const createOrder = async (req: Request, res: Response) => {
       payment: paymentResponse,
     });
   } catch (error) {
-    return res.status(500).json({
+    res.status(500).json({
       success: false,
       message: 'Order creation failed',
       error: (error as Error).message,
@@ -105,12 +105,13 @@ const getOrdersOfUsers: RequestHandler = async (
       success: true,
       data: result,
     });
-  } catch (err: any) {
+  } catch (err: Error | unknown) {
+    const error = err instanceof Error ? err : new Error(String(err));
     res.status(500).json({
       message: 'Something went wrong',
       success: false,
-      error: err.message,
-      stack: err.stack,
+      error: error.message,
+      stack: error.stack,
     });
   }
 };
