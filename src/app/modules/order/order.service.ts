@@ -34,8 +34,11 @@ const getOrdersByUserEmail = async (email?: string) => {
     const query = email ? { email } : {};
     const orders = await Order.find(query);
     return orders;
-  } catch (error: any) {
-    throw new Error(`Error fetching orders: ${error.message}`);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(`Error fetching orders: ${error.message}`);
+    }
+    throw new Error('Unknown error occurred while fetching orders.');
   }
 };
 

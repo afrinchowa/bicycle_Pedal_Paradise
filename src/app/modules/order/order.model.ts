@@ -6,9 +6,9 @@ const orderSchema = new Schema<TOrder>(
     email: { type: String, required: true },
     title: { type: String, required: true },
     product: {
-       type: Schema.Types.ObjectId, 
-       required: true,
-       ref: 'Bicycle', 
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: 'Bicycle',
     },
     quantity: { type: Number, required: true },
     status: {

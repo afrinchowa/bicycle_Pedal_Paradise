@@ -36,5 +36,5 @@ router.delete('/:userId', UserControllers.deleteUser);
 
 // authorization
 
-router.get('/',auth("admin") ,UserControllers.getUser);
+router.get('/', auth('admin'), UserControllers.getUser);
 export const UserRoutes = router;
