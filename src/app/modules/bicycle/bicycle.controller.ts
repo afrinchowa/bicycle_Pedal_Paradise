@@ -18,8 +18,19 @@ const createBicycle = catchAsync(async (req: Request, res: Response) => {
 
 // get all bicycle | search and filter bicycle
 const getAllBicycles = catchAsync(async (req: Request, res: Response) => {
-  const { searchTerm, brand, category, minPrice, maxPrice, inStock, model } =
-    req.query;
+  const {
+    searchTerm,
+    brand,
+    category,
+    minPrice,
+    maxPrice,
+    inStock,
+    model,
+    page,
+    limit,
+    sortBy,
+    sortOrder,
+  } = req.query;
 
   const result = await BicycleServices.getAllBicyclesFromDB(
     searchTerm as string,
@@ -29,6 +40,10 @@ const getAllBicycles = catchAsync(async (req: Request, res: Response) => {
     maxPrice ? parseFloat(maxPrice as string) : undefined,
     inStock as boolean | undefined,
     model as string,
+    page ? parseInt(page as string) : undefined,
+    limit ? parseInt(limit as string) : undefined,
+    sortBy as string,
+    sortOrder as 'asc' | 'desc' | undefined,
   );
 
   sendResponse(res, {
