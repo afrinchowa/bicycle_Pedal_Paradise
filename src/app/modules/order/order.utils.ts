@@ -1,7 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Shurjopay from 'shurjopay';
 import config from '../../config';
-// import config from '../../app/config';
+
+export interface PaymentResponse {
+  transactionStatus?: string;
+  sp_order_id?: string;
+  checkout_url?: string;
+  error?: string;
+}
+
 const shurjopay = new Shurjopay();
 
 shurjopay.config(
@@ -11,16 +18,6 @@ shurjopay.config(
   config.sp_prefix!,
   config.sp_returnUrl!,
 );
-// console.log(shurjopay);
-// const makePayment = async (paymentPayload: any) => {
-//   return new Promise((resolve, reject) => {
-//     shurjopay.makePayment(
-//       paymentPayload,
-//       (response) => resolve(response),
-//       (err) => reject(err),
-//     );
-//   });
-// };
 
 const makePaymentAsync = async (
   paymentPayload: any,
@@ -33,6 +30,7 @@ const makePaymentAsync = async (
     );
   });
 };
+
 const verifyPayment = (order_id: string) => {
   return new Promise((resolve, reject) => {
     shurjopay.verifyPayment(
