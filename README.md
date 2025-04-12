@@ -1,9 +1,11 @@
 Bicycle Store API
-  Credentials:   "data": {
-    "name": "Bainary1",
-    "email": "bainary1@example.com",
-    "role": "admin"
-  }
+
+important: credentials
+Credentials: "data": {
+"name": "Bainary1",
+"email": "bainary1@example.com",
+"role": "admin"
+}
 A RESTful API for managing bicycles and orders. This application allows you to add, update, delete, and retrieve bicycle details, as well as manage customer orders. The API also includes revenue calculation from orders.
 
 Features
