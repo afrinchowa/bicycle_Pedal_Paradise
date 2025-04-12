@@ -1,6 +1,9 @@
 Bicycle Store API
 
+<<<<<<< HEAD
 important: credentials
+=======
+>>>>>>> 0789637456f171e6a333729c3ae69a3a7b2bdedc
 Credentials: "data": {
 "name": "Bainary1",
 "email": "bainary1@example.com",
