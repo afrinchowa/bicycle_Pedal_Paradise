@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { BicycleModel } from '../bicycle/bicycle.model';
 import { TOrder } from './order.interface';
 import Order from './order.model';
@@ -24,7 +25,7 @@ const createOrder = async (payload: TOrder): Promise<TOrder> => {
 };
 
 const getOrder = async () => {
-  const result = await Order.find();
+  const result = await Order.find().populate('product');
   return result;
 };
 
@@ -33,8 +34,11 @@ const getOrdersByUserEmail = async (email?: string) => {
     const query = email ? { email } : {};
     const orders = await Order.find(query);
     return orders;
-  } catch (error: any) {
-    throw new Error(`Error fetching orders: ${error.message}`);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(`Error fetching orders: ${error.message}`);
+    }
+    throw new Error('Unknown error occurred while fetching orders.');
   }
 };
 
@@ -51,8 +55,16 @@ const orderRevenue = async () => {
   return result[0]?.totalRevenue || 0;
 };
 
+// interface VerifiedPayment {
+//   sp_code: string;
+//   transaction_status: string;
+//   method: string;
+//   date_time: string;
+//   sp_message: string;
+//   bank_status: string;
+// }
 interface VerifiedPayment {
-  sp_code: string;
+  sp_code: string | number; //
   transaction_status: string;
   method: string;
   date_time: string;
