@@ -4,13 +4,7 @@ import { orderService } from './order.service';
 import Order from './order.model';
 import { orderUtils } from './order.utils';
 import catchAsync from '../../utils/catchAsync';
-
-interface PaymentResponse {
-  transactionStatus?: string;
-  sp_order_id?: string;
-  checkout_url?: string;
-  error?: string;
-}
+import type { PaymentResponse } from './order.utils';
 
 export const createOrder = catchAsync(async (req: Request, res: Response) => {
   const payload = req.body;
@@ -19,21 +13,20 @@ export const createOrder = catchAsync(async (req: Request, res: Response) => {
 
   const shurjoPayPayload = {
     amount: result.totalPrice,
-    order_id: result._id,
+    order_id: result._id.toString(),
     currency: 'BDT',
     customer_name: result.email,
     customer_address: 'Bangladesh',
     customer_phone: '0123456789',
     customer_city: 'Dhaka',
-    client_ip: '192.168.0.256',
+    client_ip: req.ip || req.connection.remoteAddress || '127.0.0.1',
   };
 
   let paymentResponse: PaymentResponse;
 
   try {
-    paymentResponse = (await orderUtils.makePayment(
-      shurjoPayPayload,
-    )) as PaymentResponse;
+    // ✅ Use makePaymentAsync instead of makePayment
+    paymentResponse = await orderUtils.makePaymentAsync(shurjoPayPayload);
 
     if (paymentResponse?.transactionStatus) {
       await Order.updateOne(

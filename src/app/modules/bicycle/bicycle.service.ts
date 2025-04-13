@@ -1,3 +1,4 @@
+import { FilterQuery } from 'mongoose';
 import AppError from '../../errors/AppError';
 import { IBicycle } from './bicycle.interface';
 import { BicycleModel } from './bicycle.model';
@@ -37,7 +38,7 @@ const getAllBicyclesFromDB = async (
   sortBy: string = 'createdAt',
   sortOrder: 'asc' | 'desc' = 'desc',
 ) => {
-  const filter: any = { isDeleted: false };
+  const filter: FilterQuery<IBicycle> = { isDeleted: false };
 
   if (searchTerm) {
     filter.$or = [

@@ -55,8 +55,16 @@ const orderRevenue = async () => {
   return result[0]?.totalRevenue || 0;
 };
 
+// interface VerifiedPayment {
+//   sp_code: string;
+//   transaction_status: string;
+//   method: string;
+//   date_time: string;
+//   sp_message: string;
+//   bank_status: string;
+// }
 interface VerifiedPayment {
-  sp_code: string;
+  sp_code: string | number; //
   transaction_status: string;
   method: string;
   date_time: string;
