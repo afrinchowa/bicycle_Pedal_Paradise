@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 declare module 'shurjopay' {
   import { Logger } from 'winston';
 
@@ -52,7 +53,8 @@ declare module 'shurjopay' {
   }
 
   export interface PaymentResponse {
-    status(arg0: number): unknown;
+    // status(arg0: number): unknown;
+    status(): unknown;
     checkout_url: string; // URL for payment execution
     amount: number; // Amount to be paid by the customer
     currency: string; // Currency in which the payment will be made
@@ -99,8 +101,8 @@ declare module 'shurjopay' {
     value4?: string; // Additional information
   }
 
-  type Callback<T> = (response: T) => void;
-  type ErrorHandler = (error: any) => void;
+  // type Callback<T> = (response: T) => void;
+  // type ErrorHandler = (error: any) => void;
 
   class Shurjopay {
     data: { sp_token?: TokenDetails };

@@ -25,21 +25,45 @@ const makePaymentAsync = async (
   return new Promise((resolve, reject) => {
     shurjopay.makePayment(
       paymentPayload,
-      (response) => resolve(response),
-      (error) => reject(error),
+      (response: PaymentResponse) => resolve(response),
+      (error: unknown) => reject(error),
     );
   });
 };
 
-const verifyPayment = (order_id: string) => {
+// const makePaymentAsync = async (
+//   paymentPayload: any,
+// ): Promise<PaymentResponse> => {
+//   return new Promise((resolve, reject) => {
+//     shurjopay.makePayment(
+//       paymentPayload,
+//       (response) => resolve(response),
+//       (error) => reject(error),
+//     );
+//   });
+// };
+
+import type { VerificationResponse } from 'shurjopay';
+
+const verifyPayment = (order_id: string): Promise<VerificationResponse[]> => {
   return new Promise((resolve, reject) => {
     shurjopay.verifyPayment(
       order_id,
-      (response) => resolve(response),
-      (err) => reject(err),
+      (response: VerificationResponse[]) => resolve(response),
+      (err: unknown) => reject(err),
     );
   });
 };
+
+// const verifyPayment = (order_id: string) => {
+//   return new Promise((resolve, reject) => {
+//     shurjopay.verifyPayment(
+//       order_id,
+//       (response) => resolve(response),
+//       (err) => reject(err),
+//     );
+//   });
+// };
 
 export const orderUtils = {
   makePaymentAsync,
